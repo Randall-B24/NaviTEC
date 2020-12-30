@@ -282,16 +282,16 @@ Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
 		if (strcmp(eleccion,"1")==0){
 			printf ("\nIngrese el dia en que nacio: ");
 			scanf_s("%s",fecha);
-			strcpy(datos.nacimiento,fecha);
-			strcpy(datos.nacimiento,strcat(datos.nacimiento,"/"));
+			strcpy(datos->nacimiento,fecha);
+			strcpy(datos->nacimiento,strcat(datos->nacimiento,"/"));
 			printf ("\nIngrese el mes en que nacio: ");
 			scanf_s("%s",fecha);
-			strcpy(datos.nacimiento,strcat(datos.nacimiento,fecha));
-			strcpy(datos.nacimiento,strcat(datos.nacimiento,"/"));
+			strcpy(datos->nacimiento,strcat(datos->nacimiento,fecha));
+			strcpy(datos->nacimiento,strcat(datos->nacimiento,"/"));
 			printf ("\nIngrese el ano en que nacio: ");
 			scanf_s("%s",fecha);
-			strcpy(datos.nacimiento,strcat(datos.nacimiento,fecha));
-			datos.edad= 2020 - atoi(fecha);
+			strcpy(datos->nacimiento,strcat(datos->nacimiento,fecha));
+			datos->edad= 2020 - atoi(fecha);
 				validar1++;
 		}
 		else if (strcmp(eleccion,"0")==0){
@@ -417,7 +417,7 @@ duendes * nuevo_duende (struct duende datos)
 void mostrarLista_Doble_Duendes(Lista_Doble2 *Lista)
 {
 	duendes *i;
-	printf("Existen los siguientes ninos en el sistema: \n");
+	printf("Existen los siguientes duendes en el sistema: \n");
 	for(i = Lista->inicio; i!= NULL; i = i->siguiente)               //recorrer la lista
 		printf("-Nombre: %s -Identificacion: %s -Puesto: %s -Funcion: %s\n",i->nombre,i->identificacion,i->puesto,i->funcion);   //Imprimir los datos
 	printf("\n");
@@ -484,7 +484,7 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 			strcpy(datos.puesto,"Empaquetador de juguetes");
 				while (validar1==0){
 				printf ("Ingrese la funcion que desempena el duende: \n");
-				printf ("\n1- Empacar juguetes pequenos\n2- Empacar juguetes grandes\n\n");
+				printf ("\n1- Empacar juguetes pequenos\n2- Empacar juguetes grandes\n\nIngrese su eleccion: ");
 				scanf_s("%s",eleccion);
 				if (strcmp(eleccion,"1")==0){
 				strcpy(datos.funcion,"Empacar juguetes pequenos");
@@ -505,7 +505,7 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 			strcpy(datos.puesto,"Ayudante de entrega");
 				while (validar1==0){
 				printf ("Ingrese la funcion que desempena el duende: \n");
-				printf ("\n1- Entregar juguetes con destinos cerca\n2- Entregar juguetes con destinos largos\n\n");
+				printf ("\n1- Entregar juguetes con destinos cerca\n2- Entregar juguetes con destinos largos\n\nIngrese su eleccion: ");
 				scanf_s("%s",eleccion);
 				if (strcmp(eleccion,"1")==0){
 				strcpy(datos.funcion,"Entregar juguetes con destinos cerca");
@@ -531,15 +531,15 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 	
 	printf ("\nIngrese el dia en que empezo a trabajar: ");
 	scanf_s("%s",fecha);
-	strcpy(datos.nacimiento,fecha);
-	strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
+	strcpy(datos.comienzo,fecha);
+	strcpy(datos.comienzo,strcat(datos.comienzo,"/"));
 	printf ("\nIngrese el mes en que empezo a trabajar: ");
 	scanf_s("%s",fecha);
-	strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
-	strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
+	strcpy(datos.comienzo,strcat(datos.comienzo,fecha));
+	strcpy(datos.comienzo,strcat(datos.comienzo,"/"));
 	printf ("\nIngrese el ano en que empezo a trabajar: ");
 	scanf_s("%s",fecha);
-	strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
+	strcpy(datos.comienzo,strcat(datos.comienzo,fecha));
 	
 	registro_duendes= insertarDatos2(registro_duendes,datos);
 	color_aceptado();
@@ -549,7 +549,7 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 }
 
 //Modificar datos de un duende
-Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
+Lista_Doble2 * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 	int validar=0,validar1=0;
 	char fecha[40],eleccion[40];
 	
@@ -605,17 +605,17 @@ Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 				printf ("Ingrese su eleccion: ");
 				scanf_s("%s",eleccion);
 				if (strcmp(eleccion,"1")==0){     
-					strcpy(datos.puesto,"Elaborador de juguetes");
+					strcpy(datos->puesto,"Elaborador de juguetes");
 					while (validar1==0){
 						printf ("Ingrese la funcion que desempena el duende: \n");
 						printf ("\n1- Hacer juguetes para ninos\n2- Hacer juguetes para ninas\n\nIngrese su eleccion: ");
 						scanf_s("%s",eleccion);
 						if (strcmp(eleccion,"1")==0){
-							strcpy(datos.funcion,"Hacer juguetes para ninos");
+							strcpy(datos->funcion,"Hacer juguetes para ninos");
 							validar1++;
 						}
 						else if (strcmp(eleccion,"2")==0){
-							strcpy(datos.funcion,"Hacer juguetes para ninas");
+							strcpy(datos->funcion,"Hacer juguetes para ninas");
 							validar1++;
 						}
 						else{
@@ -626,17 +626,17 @@ Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 					}
 				}
 				else if (strcmp(eleccion,"2")==0){
-					strcpy(datos.puesto,"Empaquetador de juguetes");
+					strcpy(datos->puesto,"Empaquetador de juguetes");
 					while (validar1==0){
 						printf ("Ingrese la funcion que desempena el duende: \n");
-						printf ("\n1- Empacar juguetes pequenos\n2- Empacar juguetes grandes\n\n");
+						printf ("\n1- Empacar juguetes pequenos\n2- Empacar juguetes grandes\n\nIngrese su eleccion: ");
 						scanf_s("%s",eleccion);
 						if (strcmp(eleccion,"1")==0){
-							strcpy(datos.funcion,"Empacar juguetes pequenos");
+							strcpy(datos->funcion,"Empacar juguetes pequenos");
 							validar1++;
 						}
 						else if (strcmp(eleccion,"2")==0){
-							strcpy(datos.funcion,"Empacar juguetes grandes");
+							strcpy(datos->funcion,"Empacar juguetes grandes");
 							validar1++;
 						}
 						else{
@@ -647,17 +647,17 @@ Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 					}
 				}	
 				else if (strcmp(eleccion,"3")==0){
-					strcpy(datos.puesto,"Ayudante de entrega");
+					strcpy(datos->puesto,"Ayudante de entrega");
 					while (validar1==0){
 						printf ("Ingrese la funcion que desempena el duende: \n");
-						printf ("\n1- Entregar juguetes con destinos cerca\n2- Entregar juguetes con destinos largos\n\n");
+						printf ("\n1- Entregar juguetes con destinos cerca\n2- Entregar juguetes con destinos largos\n\nIngrese su eleccion: ");
 						scanf_s("%s",eleccion);
 						if (strcmp(eleccion,"1")==0){
-							strcpy(datos.funcion,"Entregar juguetes con destinos cerca");
+							strcpy(datos->funcion,"Entregar juguetes con destinos cerca");
 							validar1++;
 						}
 						else if (strcmp(eleccion,"2")==0){
-							strcpy(datos.funcion,"Entregar juguetes con destinos largos");
+							strcpy(datos->funcion,"Entregar juguetes con destinos largos");
 							validar1++;
 						}
 						else{
@@ -692,15 +692,15 @@ Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 		if (strcmp(eleccion,"1")==0){
 			printf ("\nIngrese el dia en que empezo a trabajar: ");
 			scanf_s("%s",fecha);
-			strcpy(datos.nacimiento,fecha);
-			strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
+			strcpy(datos->comienzo,fecha);
+			strcpy(datos->comienzo,strcat(datos->comienzo,"/"));
 			printf ("\nIngrese el mes en que empezo a trabajar: ");
 			scanf_s("%s",fecha);
-			strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
-			strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
+			strcpy(datos->comienzo,strcat(datos->comienzo,fecha));
+			strcpy(datos->comienzo,strcat(datos->comienzo,"/"));
 			printf ("\nIngrese el ano en que empezo a trabajar: ");
 			scanf_s("%s",fecha);
-			strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
+			strcpy(datos->comienzo,strcat(datos->comienzo,fecha));
 				validar1++;
 		}
 		else if (strcmp(eleccion,"0")==0){
@@ -721,30 +721,41 @@ Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 
 
 // Seleccionar el duende a modificar
-Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
+Lista_Doble2 * modificarLista_Doble2(Lista_Doble2 * registro_duendes){
 	int contador=1,validar=0;
-	char cedula[40];
-	ninos *i;
-	printf("Existen los siguientes ninos en el sistema: \n\n");
-	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
-		printf ("%i-Nombre: %s  Cedula: %s\n",contador,i->nombre,i->cedula);
+	char identificacion[40];
+	duendes *i;
+	printf("Existen los siguientes duendes en el sistema: \n\n");
+	for(i = registro_duendes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+		printf ("%i-Nombre: %s  Identificacion: %s\n",contador,i->nombre,i->identificacion);
 		contador++;	
 	}
 	while (validar==0){
-	printf("Ingrese la cedula del niño a modificar: ");
-	scanf_s("%s",cedula);
+	printf("Ingrese la identificacion del duende a modificar: ");
+	scanf_s("%s",identificacion);
 	
-	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
-	if (strcmp(i->cedula,cedula)==0){
-		modificar_nino(registro_ninos,i);
-		return registro_ninos;
+	for(i = registro_duendes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+	if (strcmp(i->identificacion,identificacion)==0){
+		modificar_duende(registro_duendes,i);
+		return registro_duendes;
 	}
 	}
 	color_error();
-	printf ("\nIngrese una cedula valida...\n\n");
+	printf ("\nIngrese una identificacion valida...\n\n");
 	color_normal();
 	}
 }
+
+
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/ 
+//                                  CÓDIGO PARA LOS JUGUETES
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
  
 
 
@@ -770,7 +781,9 @@ main (){
 		printf ("2- Mostrar ninos registrados\n");
 		printf ("3- Modificar datos de un nino\n");
 		printf ("4- Agregar duende\n");
-		printf ("5- Salir del sistema\n");
+		printf ("5- Mostrar ninos registrados\n");
+		printf ("6- Modificar datos de un duende\n");
+		printf ("7- Salir del sistema\n");
 		
 		printf ("\nElija su opcion: ");
 		scanf(" %i", &eleccion);  //eleccion de la opcion a realizar 
@@ -797,6 +810,12 @@ main (){
 				nuevos_datos2(registro_duendes);
 				break;
 			case 5:
+				mostrarLista_Doble_Duendes(registro_duendes);
+				break;
+			case 6:
+				registro_duendes=modificarLista_Doble2(registro_duendes);
+				break;
+			case 7:
 				color_aceptado();
 				printf ("\nGracias por utilizar el sistema...\n");  //Salir del sistema
 				color_normal(); 
@@ -814,8 +833,3 @@ main (){
 	
 	return 0;
 }
-
-
-
-
-
