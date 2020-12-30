@@ -7,7 +7,7 @@
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
-//                                  CÓDIGO AUXILIAR DE TODO EL PROGRAMA
+//                                  CÃ“DIGO AUXILIAR DE TODO EL PROGRAMA
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -32,7 +32,7 @@ void color_normal(){
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
-//                                  CÓDIGO PARA EL INICIO
+//                                  CÃ“DIGO PARA EL INICIO
 /* ----------------------------------------------------------------------------------------------------------------------------*/
  
 void inicio(){
@@ -76,13 +76,13 @@ void inicio(){
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
-//                                  CÓDIGO PARA NIÑOS
+//                                  CÃ“DIGO PARA NIÃ‘OS
 /* ----------------------------------------------------------------------------------------------------------------------------*/
  
 // struct para crear la lista
 
 typedef struct nino {
-	char cedula[40];               // Datos de los niños 
+	char cedula[40];               // Datos de los niÃ±os 
 	char usuario[40];                   
 	char nombre[40];
 	char correo[40];
@@ -120,7 +120,7 @@ ninos * nuevo_nino (struct nino datos)
 	ninos * nuevo;
 	nuevo = (ninos *) malloc(sizeof(ninos));
 	nuevo->anterior = NULL;
-	nuevo->siguiente = NULL;          //Copiar los datos del niño al nuevo nodo
+	nuevo->siguiente = NULL;          //Copiar los datos del niÃ±o al nuevo nodo
 	strcpy (nuevo->nombre,datos.nombre);
 	strcpy (nuevo->cedula,datos.cedula);
 	strcpy (nuevo->usuario,datos.usuario);
@@ -149,7 +149,7 @@ void mostrarLista_Doble_Ninos(Lista_Doble *Lista)
 Lista_Doble * insertarDatos(Lista_Doble * Lista, struct nino datos)
 {
 	Lista->largo=Lista->largo+1;
-	if(Lista->inicio == NULL) //Valida si la lista está vacía
+	if(Lista->inicio == NULL) //Valida si la lista estÃ¡ vacÃ­a
 	{
 		//Inserta al inicio de la lista
 		Lista->inicio= nuevo_nino(datos);
@@ -280,18 +280,18 @@ Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
 		printf ("\nLo desea modificar (0-NO, 1-SI):");
 		scanf_s("%s",eleccion);
 		if (strcmp(eleccion,"1")==0){
-				printf ("\nIngrese el dia en que nacio: ");
-				scanf_s("%s",fecha);
-				strcpy(datos->nacimiento,fecha);
-				strcpy(datos->nacimiento,"/");
-				printf ("\nIngrese el mes en que nacio: ");
-				scanf_s("%s",fecha);
-				strcpy(datos->nacimiento,fecha);
-				strcpy(datos->nacimiento,"/");
-				printf ("\nIngrese el ano en que nacio: ");
-				scanf_s("%s",fecha);
-				strcpy(datos->nacimiento,fecha);
-				datos->edad= 2020 - atoi(fecha);
+			printf ("\nIngrese el dia en que nacio: ");
+			scanf_s("%s",fecha);
+			strcpy(datos.nacimiento,fecha);
+			strcpy(datos.nacimiento,strcat(datos.nacimiento,"/"));
+			printf ("\nIngrese el mes en que nacio: ");
+			scanf_s("%s",fecha);
+			strcpy(datos.nacimiento,strcat(datos.nacimiento,fecha));
+			strcpy(datos.nacimiento,strcat(datos.nacimiento,"/"));
+			printf ("\nIngrese el ano en que nacio: ");
+			scanf_s("%s",fecha);
+			strcpy(datos.nacimiento,strcat(datos.nacimiento,fecha));
+			datos.edad= 2020 - atoi(fecha);
 				validar1++;
 		}
 		else if (strcmp(eleccion,"0")==0){
@@ -330,7 +330,7 @@ Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
 }
 
 
-// Seleccionar el nodo a modificar
+// Seleccionar el nino a modificar
 Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 	int contador=1,validar=0;
 	char cedula[40];
@@ -341,10 +341,10 @@ Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 		contador++;	
 	}
 	while (validar==0){
-	printf("Ingrese la cedula del niño a modificar: ");
+	printf("Ingrese la cedula del nino a modificar: ");
 	scanf_s("%s",cedula);
 	
-	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){        //recorrer la lista
 	if (strcmp(i->cedula,cedula)==0){
 		modificar_nino(registro_ninos,i);
 		return registro_ninos;
@@ -360,7 +360,7 @@ Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
-//                                  CÓDIGO PARA DUENDES
+//                                  CÃ“DIGO PARA DUENDES
 /* ----------------------------------------------------------------------------------------------------------------------------*/
  
 
@@ -368,7 +368,7 @@ Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 // struct para crear la lista
 
 typedef struct duende {
-	char identificacion[40];               // Datos de los niños                   
+	char identificacion[40];               // Datos de los duendes                 
 	char nombre[40];
 	char puesto[40];
 	char funcion[40];
@@ -403,7 +403,7 @@ duendes * nuevo_duende (struct duende datos)
 	duendes * nuevo;
 	nuevo = (duendes *) malloc(sizeof(duendes));
 	nuevo->anterior = NULL;
-	nuevo->siguiente = NULL;          //Copiar los datos del niño al nuevo nodo
+	nuevo->siguiente = NULL;          //Copiar los datos del duende al nuevo nodo
 	strcpy (nuevo->nombre,datos.nombre);
 	strcpy (nuevo->identificacion,datos.identificacion);
 	strcpy (nuevo->puesto,datos.puesto);
@@ -419,7 +419,7 @@ void mostrarLista_Doble_Duendes(Lista_Doble2 *Lista)
 	duendes *i;
 	printf("Existen los siguientes ninos en el sistema: \n");
 	for(i = Lista->inicio; i!= NULL; i = i->siguiente)               //recorrer la lista
-		printf("-Nombre: %s -Identificacion: %s -Puesto: %s\n",i->nombre,i->identificacion,i->puesto);   //Imprimir los datos
+		printf("-Nombre: %s -Identificacion: %s -Puesto: %s -Funcion: %s\n",i->nombre,i->identificacion,i->puesto,i->funcion);   //Imprimir los datos
 	printf("\n");
 }
 
@@ -427,7 +427,7 @@ void mostrarLista_Doble_Duendes(Lista_Doble2 *Lista)
 Lista_Doble2 * insertarDatos2(Lista_Doble2 * Lista, struct duende datos)
 {
 	Lista->largo=Lista->largo+1;
-	if(Lista->inicio == NULL) //Valida si la lista está vacía
+	if(Lista->inicio == NULL) //Valida si la lista estÃ¡ vacÃ­a
 	{
 		//Inserta al inicio de la lista
 		Lista->inicio= nuevo_duende(datos);
@@ -441,7 +441,7 @@ Lista_Doble2 * insertarDatos2(Lista_Doble2 * Lista, struct duende datos)
 	Lista->final = Lista->final->siguiente;
 }
 
-//Insertar datos de un nino
+//Insertar datos de un duende
 Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 {
 	int validar1=0;
@@ -462,8 +462,8 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 		if (strcmp(eleccion,"1")==0){     
 				strcpy(datos.puesto,"Elaborador de juguetes");
 				while (validar1==0){
-				printf ("Ingrese la funcion que desempeña el duende: \n");
-				printf ("\n1- Hacer juguetes para ninos\n2- Hacer juguetes para ninas\n\n");
+				printf ("Ingrese la funcion que desempena el duende: \n");
+				printf ("\n1- Hacer juguetes para ninos\n2- Hacer juguetes para ninas\n\nIngrese su eleccion: ");
 				scanf_s("%s",eleccion);
 				if (strcmp(eleccion,"1")==0){
 				strcpy(datos.funcion,"Hacer juguetes para ninos");
@@ -483,7 +483,7 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 		else if (strcmp(eleccion,"2")==0){
 			strcpy(datos.puesto,"Empaquetador de juguetes");
 				while (validar1==0){
-				printf ("Ingrese la funcion que desempeña el duende: \n");
+				printf ("Ingrese la funcion que desempena el duende: \n");
 				printf ("\n1- Empacar juguetes pequenos\n2- Empacar juguetes grandes\n\n");
 				scanf_s("%s",eleccion);
 				if (strcmp(eleccion,"1")==0){
@@ -504,7 +504,7 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 		else if (strcmp(eleccion,"3")==0){
 			strcpy(datos.puesto,"Ayudante de entrega");
 				while (validar1==0){
-				printf ("Ingrese la funcion que desempeña el duende: \n");
+				printf ("Ingrese la funcion que desempena el duende: \n");
 				printf ("\n1- Entregar juguetes con destinos cerca\n2- Entregar juguetes con destinos largos\n\n");
 				scanf_s("%s",eleccion);
 				if (strcmp(eleccion,"1")==0){
@@ -531,16 +531,15 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 	
 	printf ("\nIngrese el dia en que empezo a trabajar: ");
 	scanf_s("%s",fecha);
-	strcpy(datos.comienzo,fecha);
-	strcpy(datos.comienzo,"/");
+	strcpy(datos.nacimiento,fecha);
+	strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
 	printf ("\nIngrese el mes en que empezo a trabajar: ");
 	scanf_s("%s",fecha);
-	strcpy(datos.comienzo,fecha);
-	strcpy(datos.comienzo,"/");
+	strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
+	strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
 	printf ("\nIngrese el ano en que empezo a trabajar: ");
 	scanf_s("%s",fecha);
-	strcpy(datos.comienzo,fecha);
-
+	strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
 	
 	registro_duendes= insertarDatos2(registro_duendes,datos);
 	color_aceptado();
@@ -548,20 +547,20 @@ Lista_Doble2 * nuevos_datos2(Lista_Doble2 * registro_duendes)
 	color_normal();
 	fflush (stdin);
 }
-/*
-//Modificar datos de un nino
-Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
+
+//Modificar datos de un duende
+Lista_Doble * modificar_duende(Lista_Doble2 * registro_duendes,duendes * datos){
 	int validar=0,validar1=0;
 	char fecha[40],eleccion[40];
 	
-	printf ("Cedula: %s",datos->cedula);
+	printf ("Identificacion: %s",datos->identificacion);
 	while (validar1==0){
 		printf ("\nLo desea modificar (0-NO, 1-SI):");
 		scanf_s("%s",eleccion);
 		if (strcmp(eleccion,"1")==0){
-				printf ("\nIngrese el numero de cedula: ");       
+				printf ("\nIngrese el numero de identificacion: ");       
 				fflush (stdin);
-				scanf_s("%s",datos->cedula);
+				scanf_s("%s",datos->identificacion);
 				validar1++;
 		}
 		else if (strcmp(eleccion,"0")==0){
@@ -595,15 +594,85 @@ Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
 	}
 	fflush (stdin);	
 	validar1=0;
-	printf ("Correo: %s",datos->correo);
+	printf ("Puesto: %s",datos->puesto);
 	while (validar1==0){
 		printf ("\nLo desea modificar (0-NO, 1-SI):");
 		scanf_s("%s",eleccion);
 		if (strcmp(eleccion,"1")==0){
-				printf ("\nIngrese el correo electronico: ");
-				fflush (stdin);
-				scanf_s("%s",datos->correo);
-				validar1++;
+			printf ("\nSeleccione el puesto del duende: ");
+			printf ("\n\n1- Elaborador de juguetes\n2- Empaquetador de juguetes\n3- Ayudante de entrega\n\n");
+			while (validar1==0){
+				printf ("Ingrese su eleccion: ");
+				scanf_s("%s",eleccion);
+				if (strcmp(eleccion,"1")==0){     
+					strcpy(datos.puesto,"Elaborador de juguetes");
+					while (validar1==0){
+						printf ("Ingrese la funcion que desempena el duende: \n");
+						printf ("\n1- Hacer juguetes para ninos\n2- Hacer juguetes para ninas\n\nIngrese su eleccion: ");
+						scanf_s("%s",eleccion);
+						if (strcmp(eleccion,"1")==0){
+							strcpy(datos.funcion,"Hacer juguetes para ninos");
+							validar1++;
+						}
+						else if (strcmp(eleccion,"2")==0){
+							strcpy(datos.funcion,"Hacer juguetes para ninas");
+							validar1++;
+						}
+						else{
+							color_error();
+							printf ("\nIngrese un valor valido...\n\n");
+							color_normal();
+						}
+					}
+				}
+				else if (strcmp(eleccion,"2")==0){
+					strcpy(datos.puesto,"Empaquetador de juguetes");
+					while (validar1==0){
+						printf ("Ingrese la funcion que desempena el duende: \n");
+						printf ("\n1- Empacar juguetes pequenos\n2- Empacar juguetes grandes\n\n");
+						scanf_s("%s",eleccion);
+						if (strcmp(eleccion,"1")==0){
+							strcpy(datos.funcion,"Empacar juguetes pequenos");
+							validar1++;
+						}
+						else if (strcmp(eleccion,"2")==0){
+							strcpy(datos.funcion,"Empacar juguetes grandes");
+							validar1++;
+						}
+						else{
+							color_error();
+							printf ("\nIngrese un valor valido...\n\n");
+							color_normal();
+						}
+					}
+				}	
+				else if (strcmp(eleccion,"3")==0){
+					strcpy(datos.puesto,"Ayudante de entrega");
+					while (validar1==0){
+						printf ("Ingrese la funcion que desempena el duende: \n");
+						printf ("\n1- Entregar juguetes con destinos cerca\n2- Entregar juguetes con destinos largos\n\n");
+						scanf_s("%s",eleccion);
+						if (strcmp(eleccion,"1")==0){
+							strcpy(datos.funcion,"Entregar juguetes con destinos cerca");
+							validar1++;
+						}
+						else if (strcmp(eleccion,"2")==0){
+							strcpy(datos.funcion,"Entregar juguetes con destinos largos");
+							validar1++;
+						}
+						else{
+							color_error();
+							printf ("\nIngrese un valor valido...\n\n");
+							color_normal();
+						}
+					}
+				}
+				else{
+					color_error();
+					printf ("\nIngrese un valor valido...\n");
+					color_normal();
+				}
+		}
 		}
 		else if (strcmp(eleccion,"0")==0){
 			validar1++;
@@ -616,45 +685,25 @@ Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
 	}
 	fflush (stdin);	
 	validar1=0;
-	printf ("Fecha: %s",datos->nacimiento);
+	printf ("Comienzo: %s",datos->comienzo);
 	while (validar1==0){
 		printf ("\nLo desea modificar (0-NO, 1-SI):");
 		scanf_s("%s",eleccion);
 		if (strcmp(eleccion,"1")==0){
-				printf ("\nIngrese el dia en que nacio: ");
-				scanf_s("%s",fecha);
-				strcpy(datos->nacimiento,fecha);
-				strcpy(datos->nacimiento,"/");
-				printf ("\nIngrese el mes en que nacio: ");
-				scanf_s("%s",fecha);
-				strcpy(datos->nacimiento,fecha);
-				strcpy(datos->nacimiento,"/");
-				printf ("\nIngrese el ano en que nacio: ");
-				scanf_s("%s",fecha);
-				strcpy(datos->nacimiento,fecha);
-				datos->edad= 2020 - atoi(fecha);
+			printf ("\nIngrese el dia en que empezo a trabajar: ");
+			scanf_s("%s",fecha);
+			strcpy(datos.nacimiento,fecha);
+			strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
+			printf ("\nIngrese el mes en que empezo a trabajar: ");
+			scanf_s("%s",fecha);
+			strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
+			strcpy(datos.nacimiento,strcat(datos.comienzo,"/"));
+			printf ("\nIngrese el ano en que empezo a trabajar: ");
+			scanf_s("%s",fecha);
+			strcpy(datos.nacimiento,strcat(datos.comienzo,fecha));
 				validar1++;
 		}
 		else if (strcmp(eleccion,"0")==0){
-			validar1++;
-		}
-		else{
-			color_error();
-			printf ("\nIngrese un valor valido...\n");
-			color_normal();
-		}
-	}
-	while (validar1==0){
-		printf ("\nLo desea modificar (0-NO, 1-SI):");
-		scanf_s("%s",eleccion);
-		if (strcmp(eleccion,"1")==0){
-
-				validar1++;
-		}
-		else if (strcmp(eleccion,"0")==0){
-			printf ("\nIngrese alguna especialidad que posee el nino: ");
-			fflush (stdin);
-			scanf_s("%i",datos->especialidades);
 			validar1++;
 		}
 		else{
@@ -665,13 +714,13 @@ Lista_Doble * modificar_nino(Lista_Doble * registro_ninos,ninos * datos){
 	}
 	fflush (stdin);	
 	color_aceptado();
-	printf ("\nNino modificado correctamente\n\n");
+	printf ("\nDuende modificado correctamente\n\n");
 	color_normal();
 	fflush (stdin);	
 }
 
 
-// Seleccionar el nodo a modificar
+// Seleccionar el duende a modificar
 Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 	int contador=1,validar=0;
 	char cedula[40];
@@ -682,7 +731,7 @@ Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 		contador++;	
 	}
 	while (validar==0){
-	printf("Ingrese la cedula del niño a modificar: ");
+	printf("Ingrese la cedula del niÃ±o a modificar: ");
 	scanf_s("%s",cedula);
 	
 	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
@@ -696,11 +745,11 @@ Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 	color_normal();
 	}
 }
-*/
+ 
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
-//                                  CÓDIGO PARA EL MENU
+//                                  CÃ“DIGO PARA EL MENU
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
 main (){
@@ -765,6 +814,8 @@ main (){
 	
 	return 0;
 }
+
+
 
 
 
