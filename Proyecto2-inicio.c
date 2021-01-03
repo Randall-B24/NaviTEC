@@ -752,11 +752,172 @@ Lista_Doble2 * modificarLista_Doble2(Lista_Doble2 * registro_duendes){
 //                                  CÓDIGO PARA LOS JUGUETES
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
+int codigo_juguetes=1;
+
+// Estructura de los nodos
+typedef struct juguete {
+    int codigo;
+    char nombre[40];
+    char descripcion[40];
+    char categoria[40];
+    int edadmenor;
+    int edadmayor;
+    int costo;
+    struct juguete * izq;
+    struct juguete * der;
+}Juguetes;
 
 
+//Crear raíz de árbol
+
+Juguetes * crear_raiz(Juguetes * registro_juguetes){
+	registro_juguetes=NULL;
+	return registro_juguetes;
+}
 
 
- 
+// Insertar elementos en el arbol
+Juguetes * insertar_juguetes(Juguetes * registro_juguetes,struct juguete datos)
+{
+    Juguetes * nuevo;
+    nuevo = malloc(sizeof(struct juguete));
+    
+    nuevo->codigo= datos.codigo;
+    strcpy(nuevo->nombre,datos.nombre);
+    strcpy(nuevo->descripcion,datos.descripcion);
+    strcpy(nuevo->categoria,datos.categoria);
+    nuevo->edadmenor= datos.edadmenor;
+    nuevo->edadmayor=datos.edadmayor;
+    nuevo->costo=datos.costo;
+    nuevo->izq = NULL;
+    nuevo->der = NULL;
+    
+    
+    if (registro_juguetes == NULL){
+        registro_juguetes = nuevo;
+		}
+    else
+    {
+        Juguetes *anterior, *aux;
+        anterior = NULL;
+        aux = registro_juguetes;
+        while (aux != NULL)
+        {
+            anterior = aux;
+            if (datos.costo < aux->costo)
+                aux = aux->izq;
+            else
+                aux = aux->der;
+        }
+        if (datos.costo < anterior->costo)
+            anterior->izq = nuevo;
+        else
+            anterior->der = nuevo;
+    }
+	return registro_juguetes;    
+}
+
+
+// Ingresar los datos de un nuevo juguete
+Juguetes * nuevo_juguete (Juguetes * registro_juguetes){
+	int validar=0;
+	char term;
+	struct juguete datos;
+	
+	datos.codigo= codigo_juguetes;
+	codigo_juguetes++;
+	printf ("\nIngrese el nombre del juguete: ");
+	fflush (stdin);
+	gets(datos.nombre);
+	fflush (stdin);
+	printf ("\nIngrese la descripcion del juguete: ");
+	gets(datos.descripcion);
+	fflush (stdin);
+	printf ("\nIngrese la categoria del juguete: ");
+	gets(datos.categoria);
+	fflush (stdin);
+	printf ("\nIngrese el rango de edad adecuado para el juguete: ");
+	while (validar==0){
+		printf ("\nIngrese la edad minima: ");
+		fflush (stdin);
+		if(scanf("%d%c", &datos.edadmenor, &term) != 2 || term != "\n"){
+			if (datos.edadmenor==0){
+    		color_error();
+        	printf("\nIngrese un valor valido...\n");
+        	color_normal();				
+			}
+			else{
+    		validar++;
+    		}
+    	}
+    	else{
+    		color_error();
+        	printf("\nIngrese un valor valido...\n");
+        	color_normal();
+    		}
+	}
+	validar=0;
+	while (validar==0){
+		printf ("\nIngrese la edad maxima: ");
+		fflush (stdin);
+		if(scanf("%d%c", &datos.edadmayor, &term) != 2 || term != "\n"){
+			if (datos.edadmayor==0){
+    		color_error();
+        	printf("\nIngrese un valor valido...\n");
+        	color_normal();				
+			}
+			else{
+    		validar++;
+    		}
+    	}
+    	else{
+    		color_error();
+        	printf("\nIngrese un valor valido...\n");
+        	color_normal();
+    		}
+	}
+	validar=0;
+	while (validar==0){
+		printf ("\nIngrese el costo del juguete: ");
+		fflush (stdin);
+		if(scanf("%d%c", &datos.costo, &term) != 2 || term != "\n"){
+			if (datos.costo==0){
+    		color_error();
+        	printf("\nIngrese un valor valido...\n");
+        	color_normal();				
+			}
+			else{
+    		printf("El costo es: %d",datos.costo);
+    		validar++;
+    		}
+    	}
+    	else{
+    		color_error();
+        	printf("\nIngrese un valor valido...\n");
+        	color_normal();
+    		}
+	}
+	color_aceptado();
+	printf ("\nJuguete agregado correctamente...\n\n");
+	color_normal();
+	fflush(stdin);
+	registro_juguetes= insertar_juguetes(registro_juguetes,datos);
+	return registro_juguetes;
+}
+
+
+// Mostrar juguetes registrados
+
+void Mostrar_Arbol_juguetes(Juguetes * registro_juguetes)
+{
+    if (registro_juguetes != NULL)
+    {
+        Mostrar_Arbol_juguetes(registro_juguetes->izq);
+        printf("Nombre: %s  Categoria: %s   Costo: %d  Codigo: %i\n\n",registro_juguetes->nombre,registro_juguetes->categoria,registro_juguetes->costo,registro_juguetes->codigo);
+        Mostrar_Arbol_juguetes(registro_juguetes->der);
+    }
+}
+
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
@@ -769,6 +930,7 @@ main (){
 	
 	Lista_Doble * registro_ninos = listaNueva(registro_ninos);
 	Lista_Doble2 * registro_duendes = listaNueva2(registro_duendes);
+	Juguetes * registro_juguetes = crear_raiz(registro_juguetes);
 	int validar=0,eleccion;
 	
 	
@@ -783,7 +945,9 @@ main (){
 		printf ("4- Agregar duende\n");
 		printf ("5- Mostrar ninos registrados\n");
 		printf ("6- Modificar datos de un duende\n");
-		printf ("7- Salir del sistema\n");
+		printf ("7- Agregar un nuevo juguete\n");
+		printf ("8- Mostrar juguetes registrados\n");
+		printf ("9- Salir del sistema\n");
 		
 		printf ("\nElija su opcion: ");
 		scanf(" %i", &eleccion);  //eleccion de la opcion a realizar 
@@ -816,6 +980,12 @@ main (){
 				registro_duendes=modificarLista_Doble2(registro_duendes);
 				break;
 			case 7:
+				registro_juguetes=nuevo_juguete (registro_juguetes);
+				break;
+			case 8:
+				Mostrar_Arbol_juguetes(registro_juguetes);
+				break;
+			case 9:
 				color_aceptado();
 				printf ("\nGracias por utilizar el sistema...\n");  //Salir del sistema
 				color_normal(); 
@@ -833,3 +1003,4 @@ main (){
 	
 	return 0;
 }
+
