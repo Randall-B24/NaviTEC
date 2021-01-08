@@ -358,6 +358,57 @@ Lista_Doble * modificarLista_Doble(Lista_Doble * registro_ninos){
 }
 
 
+// Eliminar por identificacion
+
+Lista_Doble * eliminar_ninos_identificacion (Lista_Doble * L,char identificacion[]){
+	ninos *i;
+	struct nino datos;
+	Lista_Doble *L2= listaNueva(L2);
+	for(i = L->inicio; i!= NULL; i = i->siguiente){
+	if (strcmp(i->cedula,identificacion)!=0){
+		strcpy(datos.cedula,i->cedula);
+		strcpy(datos.correo,i->correo);
+		strcpy(datos.especialidades,i->especialidades);
+		strcpy(datos.nombre,i->nombre);
+		strcpy(datos.residencia,i->residencia);
+		strcpy(datos.usuario,i->usuario);
+		datos.edad=i->edad;
+		L2= insertarDatos(L2,datos);
+	}
+	}
+	return L2;
+}
+
+// Seleccionar el nino a eliminar
+Lista_Doble * EliminarLista_Doble(Lista_Doble * registro_ninos){
+	int contador=1,validar=0;
+	char identificacion[40];
+	ninos *i;
+	printf("Existen los siguientes ninos en el sistema: \n\n");
+	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+		printf ("%i-Nombre: %s \n",contador,i->cedula);
+		contador++;	
+	}
+	while (validar==0){
+	printf("Ingrese la identificacion del nino a eliminar: ");
+	scanf_s("%s",identificacion);
+	
+	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+	if (strcmp(i->cedula,identificacion)==0){
+		registro_ninos= eliminar_ninos_identificacion (registro_ninos,identificacion);
+		color_aceptado();
+		printf ("\nNino eliminado correctamente...\n\n");
+		color_normal();
+		return registro_ninos;
+	}
+	}
+	color_error();
+	printf ("\nIngrese una identificacion valida...\n\n");
+	color_normal();
+	}
+}
+
+
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
@@ -738,6 +789,55 @@ Lista_Doble2 * modificarLista_Doble2(Lista_Doble2 * registro_duendes){
 	for(i = registro_duendes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
 	if (strcmp(i->identificacion,identificacion)==0){
 		modificar_duende(registro_duendes,i);
+		return registro_duendes;
+	}
+	}
+	color_error();
+	printf ("\nIngrese una identificacion valida...\n\n");
+	color_normal();
+	}
+}
+
+
+// Eliminar por identificacion
+
+Lista_Doble2 * eliminar_duendes_identificacion (Lista_Doble2 * L,char identificacion[]){
+	duendes *i;
+	struct duende datos;
+	Lista_Doble2 *L2= listaNueva2(L2);
+	for(i = L->inicio; i!= NULL; i = i->siguiente){
+	if (strcmp(i->identificacion,identificacion)!=0){
+		strcpy(datos.comienzo,i->comienzo);
+		strcpy(datos.funcion,i->funcion);
+		strcpy(datos.identificacion,i->identificacion);
+		strcpy(datos.nombre,i->nombre);
+		strcpy(datos.puesto,i->puesto);
+		L2= insertarDatos2(L2,datos);
+	}
+	}
+	return L2;
+}
+
+// Seleccionar el duende a eliminar
+Lista_Doble2 * EliminarLista_Doble2(Lista_Doble2 * registro_duendes){
+	int contador=1,validar=0;
+	char identificacion[40];
+	duendes *i;
+	printf("Existen los siguientes duendes en el sistema: \n\n");
+	for(i = registro_duendes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+		printf ("%i-Nombre: %s \n",contador,i->identificacion);
+		contador++;	
+	}
+	while (validar==0){
+	printf("Ingrese la identificacion del duende a eliminar: ");
+	scanf_s("%s",identificacion);
+	
+	for(i = registro_duendes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+	if (strcmp(i->identificacion,identificacion)==0){
+		registro_duendes= eliminar_duendes_identificacion (registro_duendes,identificacion);
+		color_aceptado();
+		printf ("\nDuende eliminado correctamente...\n\n");
+		color_normal();
 		return registro_duendes;
 	}
 	}
@@ -1168,6 +1268,222 @@ Lista_Doble3 * EliminarLista_Doble3(Lista_Doble3 * registro_juguetes, int * codi
 }
 
 
+
+//Modificar datos de un juguete
+Lista_Doble3 * modificar_juguete(Lista_Doble3 * registro_juguetes,Juguetes * datos){
+	int validar=0,validar1=0;
+	char eleccion[40];
+	char term;
+	
+	printf ("Nombre: %s",datos->nombre);
+	while (validar1==0){
+		printf ("\nLo desea modificar (0-NO, 1-SI):");
+		scanf_s("%s",eleccion);
+		if (strcmp(eleccion,"1")==0){
+				printf ("\nIngrese el nombre: ");       
+				fflush (stdin);
+				scanf_s("%s",datos->nombre);
+				validar1++;
+		}
+		else if (strcmp(eleccion,"0")==0){
+			validar1++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}
+	validar1=0;
+	printf ("Descripcion: %s",datos->descripcion);
+	while (validar1==0){
+		printf ("\nLo desea modificar (0-NO, 1-SI):");
+		scanf_s("%s",eleccion);
+		if (strcmp(eleccion,"1")==0){
+				printf ("\nIngrese la descripcion: ");
+				fflush (stdin);
+				gets(datos->descripcion);
+				validar1++;
+		}
+		else if (strcmp(eleccion,"0")==0){
+			validar1++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}
+	fflush (stdin);	
+	validar1=0;
+	printf ("Categoria: %s",datos->categoria);
+	while (validar1==0){
+		printf ("\nLo desea modificar (0-NO, 1-SI):");
+		scanf_s("%s",eleccion);
+		if (strcmp(eleccion,"1")==0){
+				printf ("\nIngrese la categoria: ");
+				fflush (stdin);
+				gets(datos->categoria);
+				validar1++;
+		}
+		else if (strcmp(eleccion,"0")==0){
+			validar1++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}
+	fflush (stdin);		
+	validar1=0;
+	printf ("Edad minima: %i",datos->edadmenor);
+	while (validar1==0){
+		printf ("\nLo desea modificar (0-NO, 1-SI):");
+		scanf_s("%s",eleccion);
+		if (strcmp(eleccion,"1")==0){
+			while (validar==0){
+				printf ("\nIngrese la edad minima: ");
+				fflush (stdin);
+				if(scanf("%d%c", &datos->edadmenor, &term) != 2 || term != '\n'){
+    				color_error();
+        			printf("\nIngrese un valor valido...\n");
+        			color_normal();
+    			}
+    			else{
+					if (datos->edadmayor==0){
+    					color_error();
+        				printf("\nIngrese un valor valido...\n");
+        				color_normal();				
+					}
+					else{
+    				validar++;
+    				validar1++;
+    				}
+    			}
+			}
+		}
+		else if (strcmp(eleccion,"0")==0){
+			validar1++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}
+	fflush (stdin);		
+	validar1=0;
+	validar=0;
+	
+	printf ("Edad maxima: %i",datos->edadmayor);
+	while (validar1==0){
+		printf ("\nLo desea modificar (0-NO, 1-SI):");
+		scanf_s("%s",eleccion);
+		if (strcmp(eleccion,"1")==0){
+			while (validar==0){
+				printf ("\nIngrese la edad maxima: ");
+				fflush (stdin);
+				if(scanf("%d%c", &datos->edadmayor, &term) != 2 || term != '\n'){
+    				color_error();
+        			printf("\nIngrese un valor valido...\n");
+        			color_normal();
+    			}
+    			else{
+					if (datos->edadmayor==0){
+    					color_error();
+        				printf("\nIngrese un valor valido...\n");
+        				color_normal();				
+					}
+					else{
+    				validar++;
+    				validar1++;
+    				}
+    			}
+			}
+		}
+		else if (strcmp(eleccion,"0")==0){
+			validar1++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}
+	fflush (stdin);		
+	validar1=0;
+	validar=0;
+	printf ("Costo: %i",datos->costo);
+	while (validar1==0){
+		printf ("\nLo desea modificar (0-NO, 1-SI):");
+		scanf_s("%s",eleccion);
+		if (strcmp(eleccion,"1")==0){
+			while (validar==0){
+				printf ("\nIngrese el costo: ");
+				fflush (stdin);
+				if(scanf("%d%c", &datos->costo, &term) != 2 || term != '\n'){
+    				color_error();
+        			printf("\nIngrese un valor valido...\n");
+        			color_normal();
+    			}
+    			else{
+					if (datos->costo==0){
+    					color_error();
+        				printf("\nIngrese un valor valido...\n");
+        				color_normal();				
+					}
+					else{
+    				validar++;
+    				validar1++;
+    				}
+    			}
+			}
+		}
+		else if (strcmp(eleccion,"0")==0){
+			validar1++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}
+	fflush (stdin);	
+	color_aceptado();
+	printf ("\nJuguete modificado correctamente\n\n");
+	color_normal();
+	fflush (stdin);	
+}
+
+
+// Seleccionar el juguete a modificar
+Lista_Doble3 * modificarLista_Doble3(Lista_Doble3 * registro_juguetes){
+	int contador=1,validar=0;
+	char nombre[40];
+	Juguetes *i;
+	printf("Existen los siguientes juguetes en el sistema: \n\n");
+	for(i = registro_juguetes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+		printf ("%i-Nombre: %s  Codigo: %i\n",contador,i->nombre,i->codigo);
+		contador++;	
+	}
+	while (validar==0){
+	printf("Ingrese el nombre del duende a modificar: ");
+	scanf_s("%s",nombre);
+	
+	for(i = registro_juguetes->inicio; i!= NULL; i = i->siguiente){          //recorrer la lista
+	if (strcmp(i->nombre,nombre)==0){
+		modificar_juguete(registro_juguetes,i);
+		return registro_juguetes;
+	}
+	}
+	color_error();
+	printf ("\nIngrese un nombre valido...\n\n");
+	color_normal();
+	}
+}
+
+
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
 //                                  CÓDIGO PARA EL MENU
 /* ----------------------------------------------------------------------------------------------------------------------------*/
@@ -1224,7 +1540,7 @@ main (){
 				registro_ninos=modificarLista_Doble(registro_ninos);
 				break;
 			case 4:
-				
+				registro_ninos=EliminarLista_Doble(registro_ninos);
 				break;
 			case 5:
 				nuevos_datos2(registro_duendes);
@@ -1236,7 +1552,7 @@ main (){
 				registro_duendes=modificarLista_Doble2(registro_duendes);   			
 				break;
 			case 8:
-
+				registro_duendes=EliminarLista_Doble2(registro_duendes);
 				break;
 			case 9:
 				codigo_juguete_aux= sacar_codigo();
@@ -1245,11 +1561,9 @@ main (){
 				break;
 			case 10:
 				mostrarLista_Doble_Juguetes(registro_juguetes);
-				printf ("\n\n");
-				InOrden(registro_codigos_juguetes, Mostrar);
 				break;
 			case 11:
-				
+				registro_juguetes= modificarLista_Doble3(registro_juguetes);
 				break;
 			case 12:
    				registro_juguetes=EliminarLista_Doble3(registro_juguetes,&codigo_juguete_aux,registro_codigos_juguetes);
@@ -1272,4 +1586,5 @@ main (){
 	
 	return 0;
 }
+
 
