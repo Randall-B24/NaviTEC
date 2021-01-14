@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <Windows.h> 
 #include <math.h>
+#define nodo_Lugares struct nodo
+#define arista_Lugares struct arista
+#define Lista_Lugares struct pila
 
 
 
@@ -1485,6 +1488,323 @@ Lista_Doble3 * modificarLista_Doble3(Lista_Doble3 * registro_juguetes){
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
+//                                  CÓDIGO PARA LUGARES
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+
+nodo_Lugares{
+	char nombre[40];
+	int codigo;
+	int codigo_postal;
+	
+	
+	nodo_Lugares* siguiente;
+	arista_Lugares* adyacencia; 
+	int visitado,terminado;
+	char anterior;
+	int monto;
+};
+
+arista_Lugares{
+	nodo_Lugares*vrt; 
+	arista_Lugares*siguiente;
+	
+	int km;
+	float tiempo;
+	char ruta[40];
+};
+
+Lista_Lugares{
+	nodo_Lugares* dato;
+	Lista_Lugares*siguiente;
+};
+
+
+nodo_Lugares * inicio2=NULL;
+Lista_Lugares * ini=NULL;
+Lista_Lugares * final=NULL;
+int codigos=1;
+int codigos_postal=100; 
+
+void insertarNodo(){
+    nodo_Lugares * aux;
+	nodo_Lugares * nuevo=(nodo_Lugares*)malloc(sizeof(nodo_Lugares));
+	fflush(stdin);
+	printf("Ingrese el nombre del lugar:");
+	fflush(stdin);
+	gets(nuevo->nombre);
+	nuevo->codigo= codigos;
+	codigos++;
+	nuevo->codigo_postal=codigos_postal;
+	codigos_postal++;  
+	nuevo->siguiente=NULL;
+    nuevo->adyacencia=NULL;
+    nuevo->visitado=nuevo->terminado=0;
+    nuevo->monto=-1;
+    nuevo->anterior=0;
+    if(inicio2==NULL){
+        inicio2=nuevo;
+    }else{
+        aux=inicio2;
+        while(aux->siguiente!=NULL){
+            aux=aux->siguiente;
+        }
+        aux->siguiente=nuevo;
+      }
+ 
+ }
+ 
+ 
+ void agregarArista(nodo_Lugares * aux,nodo_Lugares * aux2,arista_Lugares * nuevo){
+    arista_Lugares* a;
+    if(aux->adyacencia==NULL){   
+	    aux->adyacencia=nuevo;
+        nuevo->vrt=aux2;
+    }else{   
+	    a=aux->adyacencia;
+        while(a->siguiente!=NULL)
+            a=a->siguiente;
+        nuevo->vrt=aux2;
+        a->siguiente=nuevo;
+    }
+}
+ 
+ 
+ void insertarArista(){   
+    char ini[40], fin[40],eleccion[40];
+    int validar=0;
+    arista_Lugares * nuevo=(arista_Lugares*)malloc(sizeof(arista_Lugares));
+    nuevo->siguiente=NULL;
+    nodo_Lugares * aux;
+	nodo_Lugares * aux2;
+    if(inicio==NULL){
+    	 color_error();
+         printf("Error: El grafo está vacio\n");
+         color_normal();
+         return;
+    }
+    fflush(stdin);
+    printf("Ingrese el nodo Inicial:");
+    fflush(stdin);
+    gets(ini);
+    printf("Ingrese el nodo Final:");
+    fflush(stdin);
+    gets(fin);
+    printf("Ingrese los kilometros que existen:");
+    scanf("%i",&nuevo->km);
+    while (validar==0){
+    	printf("Seleccione el tipo de ruta: \n1-Terrestre\n2-Maritima\n3-Aerea\n\nEleccion: ");
+    	fflush(stdin);
+    	gets(eleccion);
+    	if (strcmp(eleccion,"1")==0){
+    		strcpy(nuevo->ruta,"Terrestre");
+    		validar++;
+		}
+		else if (strcmp(eleccion,"2")==0){
+			strcpy(nuevo->ruta,"Maritima");
+			validar++;
+		}
+		else if (strcmp(eleccion,"3")==0){
+			strcpy(nuevo->ruta,"Aerea");
+			validar++;
+		}
+		else{
+			color_error();
+			printf ("\nIngrese un valor valido...\n");
+			color_normal();
+		}
+	}	
+    printf("Ingrese el tiempo promedio de duracion:");
+    scanf("%f",&nuevo->tiempo);    
+    aux=inicio2;
+    aux2=inicio2;
+    while(aux2!=NULL){
+        if(strcmp(aux2->nombre,fin)==0){
+            break;
+        }
+        aux2=aux2->siguiente;
+    }
+    if(aux2==NULL){
+    	printf("Error:Vertice no encontrado\n");
+    	return;
+	}
+    while(aux!=NULL){
+
+
+        if(strcmp(aux->nombre,ini)==0){
+            agregarArista(aux,aux2,nuevo);
+            return;
+        }
+        aux = aux->siguiente;
+    }
+    if(aux==NULL)
+    	printf("Error:Vertice no encontrado\n");
+}
+
+
+void visualizarGrafo(){
+    nodo_Lugares * aux=inicio2;
+    arista_Lugares *ar;
+    printf("Lugares: \n");
+    while(aux!=NULL){   
+	    printf("%s",aux->nombre);
+        if(aux->adyacencia!=NULL){
+            ar=aux->adyacencia;
+            while(ar!=NULL){ 
+			    printf(" --->%s",ar->vrt->nombre);
+                ar=ar->siguiente;
+            }
+        }
+        printf("\n");
+        aux=aux->siguiente;
+    }
+    printf("\n");
+}
+
+
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/ 
+//                                  CÓDIGO PARA COMPORTAMIENTOS
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+
+// struct para crear la lista
+
+typedef struct comportamiento {
+	char identificacion[40];               // Datos de los duendes                 
+	char nombre[40];
+	char descripcion[40];
+	char tipo[40];
+	char fecha[40];
+	struct comportamiento * siguiente;   // Putero a siguiente
+	struct comportamiento * anterior; 	// Putero a anterior
+} comportamientos;
+
+
+// Estructura de la lista doble
+typedef struct Lista4
+{
+	int largo;           // Largo de la lista doble
+	struct comportamiento * inicio;
+	struct comportamiento * final;
+} Lista_Doble4;
+
+// Crear una nueva lista doble
+Lista_Doble4 *listaNueva4(Lista_Doble4 * L)
+{
+	L= NULL;
+	L = (Lista_Doble4 *) malloc(sizeof(Lista_Doble4));
+	L->inicio = NULL;    // Poner inicio NULL
+	L->final = NULL;	// Poner final NULL
+	L->largo=0;			// Poner largo 0
+	return L;
+}
+
+// Crear un nuevo nodo para la lista doble
+
+comportamientos * nuevo_comportamiento (struct comportamiento datos)
+{
+	comportamientos * nuevo;
+	nuevo = (comportamientos *) malloc(sizeof(comportamientos));
+	nuevo->anterior = NULL;
+	nuevo->siguiente = NULL;          //Copiar los datos del duende al nuevo nodo
+	strcpy (nuevo->nombre,datos.nombre);
+	strcpy (nuevo->identificacion,datos.identificacion);
+	strcpy (nuevo->tipo,datos.tipo);
+	strcpy (nuevo->fecha,datos.fecha);
+	strcpy (nuevo->descripcion,datos.descripcion);
+	
+	return nuevo;            // retornar los datos
+}
+
+// Muestra la lista doble de derecha a izquierda
+void mostrarLista_Doble_Comportamientos(Lista_Doble4 *Lista)
+{
+	comportamientos *i;
+	printf("Existen los siguientes comportamientos en el sistema: \n");
+	for(i = Lista->inicio; i!= NULL; i = i->siguiente)               //recorrer la lista
+		printf("-Nombre: %s -Identificacion: %s -Tipo: %s -Fecha: %s\n",i->nombre,i->identificacion,i->tipo,i->fecha);   //Imprimir los datos
+	printf("\n");
+}
+
+// Insertar datos en la lista doble
+Lista_Doble4 * insertarDatos4(Lista_Doble4 * Lista, struct comportamiento datos)
+{
+	Lista->largo=Lista->largo+1;
+	if(Lista->inicio == NULL) //Valida si la lista está vacía
+	{
+		//Inserta al inicio de la lista
+		Lista->inicio= nuevo_comportamiento(datos);
+		Lista->final = Lista->inicio;
+		return Lista;
+	}
+	
+	//Inserta el dato al final de la lista, no necesita un ciclo porque tiene el puntero final
+	Lista->final->siguiente = nuevo_comportamiento(datos);
+	Lista->final->siguiente->anterior = Lista->final;
+	Lista->final = Lista->final->siguiente;
+}
+
+
+void seleccion_identificacion(Lista_Doble * registro_ninos,char * eleccion){
+	int contador=1,validar=0,dato;
+	ninos *i;
+	printf ("Existen las siguientes identificaciones: \n\n");
+	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente)               //recorrer la lista
+		printf("%i-Identificacion: %s\n",contador,i->cedula);
+	while (validar==0){
+		printf ("Ingrese su eleccion: ");
+		scanf("%i",&dato);
+		contador==1
+		for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){
+			if (dato==contador){
+				strcpy(eleccion,i->cedula);
+				return ;
+			}
+			else{
+				contador++;
+			}
+		}
+		color_error();
+		printf ("\n\nIngrese un valor valido...\n");
+		color_normal();
+	}	
+}
+
+//Insertar datos de un comportamiento
+Lista_Doble4 * nuevos_datos4(Lista_Doble4 * registro_comportamientos,Lista_Doble * registro_ninos)
+{
+	int validar1=0;
+	char fecha[10],eleccion[10];
+	struct comportamiento datos;
+	
+	printf ("\nIngrese el nombre del padre: ");       
+	fflush (stdin);
+	scanf_s("%s",datos.nombre);
+	seleccion_identificacion(registro_ninos,&datos.identificacion);
+		
+	printf ("\nIngrese el dia en que se realizo el registro del comportamiento: ");
+	scanf_s("%s",fecha);
+	strcpy(datos.fecha,fecha);
+	strcpy(datos.fecha,strcat(datos.fecha,"/"));
+	printf ("\nIngrese el mes en que se realizo el registro del comportamiento: ");
+	scanf_s("%s",fecha);
+	strcpy(datos.fecha,strcat(datos.fecha,fecha));
+	strcpy(datos.fecha,strcat(datos.fecha,"/"));
+	printf ("\nIngrese el ano en que se realizo el registro del comportamiento: ");
+	scanf_s("%s",fecha);
+	strcpy(datos.fecha,strcat(datos.fecha,fecha));
+	registro_comportamientos= insertarDatos4(registro_comportamientos,datos);
+	color_aceptado();
+	printf ("\nComportamiento agregado correctamente\n\n");
+	color_normal();
+	fflush (stdin);
+}
+
+
+
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/ 
 //                                  CÓDIGO PARA EL MENU
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
@@ -1495,6 +1815,7 @@ main (){
 	Lista_Doble * registro_ninos = listaNueva(registro_ninos);
 	Lista_Doble2 * registro_duendes = listaNueva2(registro_duendes);
 	Lista_Doble3 * registro_juguetes = listaNueva3(registro_juguetes);
+	Lista_Doble4 * registro_comportamientos = listaNueva4(registro_comportamientos);
 	Arbol registro_codigos_juguetes=NULL;
 	int validar=0,eleccion,codigo_juguete_aux;
 	
@@ -1516,7 +1837,12 @@ main (){
 		printf ("10- Mostrar juguetes registrados\n");
 		printf ("11- Modificar datos de un juguete\n");
 		printf ("12- Eliminar un juguete\n");
-		printf ("13- Salir del sistema\n");
+		printf ("13- Agregar lugar\n");
+		printf ("14- Agregar ruta entre lugares\n");
+		printf ("15- Mostrar relaciones de los lugares\n");
+		printf ("16- Agregar comportamiento\n");
+		printf ("17- Mostrar comportamientos registrados\n");
+		printf ("18- Salir del sistema\n");
 		
 		printf ("\nElija su opcion: ");
 		scanf(" %i", &eleccion);  //eleccion de la opcion a realizar 
@@ -1569,6 +1895,26 @@ main (){
    				registro_juguetes=EliminarLista_Doble3(registro_juguetes,&codigo_juguete_aux,registro_codigos_juguetes);
 				break;
 			case 13:
+   				insertarNodo();
+                fflush(stdin);
+				break;	
+			case 14:
+				insertarArista();
+            	fflush(stdin);
+				break;
+			case 15:
+            	visualizarGrafo();
+            	fflush(stdin);
+				break;	
+			case 16:
+            	nuevos_datos4(registro_comportamientos,registro_ninos);
+            	fflush(stdin);
+				break;
+			case 17:
+            	mostrarLista_Doble_Comportamientos(registro_comportamientos);
+            	fflush(stdin);
+				break;		
+			case 18:
 				color_aceptado();
 				printf ("\nGracias por utilizar el sistema...\n");  //Salir del sistema
 				color_normal(); 
