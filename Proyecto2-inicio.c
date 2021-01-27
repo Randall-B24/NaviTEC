@@ -1802,11 +1802,437 @@ Lista_Doble4 * nuevos_datos4(Lista_Doble4 * registro_comportamientos,Lista_Doble
 }
 
 
+/* ----------------------------------------------------------------------------------------------------------------------------*/ 
+//                                  CÓDIGO PARA LAS CARTAS PARA SANTA
+/* ----------------------------------------------------------------------------------------------------------------------------*/
 
+
+struct aux_carta{
+	char nombre_juguete[40];
+};
+// struct para crear la lista
+
+typedef struct carta {
+	int ano;               // Datos de los duendes 
+	int contador1;
+	int contador2;
+	struct aux_carta lista_juguetes[10];
+	struct aux_carta lista_deseos[100];                
+	char cedula[40]; 
+	struct carta * siguiente;   // Putero a siguiente
+	struct carta * anterior; 	// Putero a anterior
+} cartas;
+
+
+// Estructura de la lista doble
+typedef struct Lista5
+{
+	int largo;           // Largo de la lista doble
+	struct carta * inicio;
+	struct carta * final;
+} Lista_Doble5;
+
+// Crear una nueva lista doble
+Lista_Doble5 *listaNueva5(Lista_Doble5 * L)
+{
+	L= NULL;
+	L = (Lista_Doble5 *) malloc(sizeof(Lista_Doble5));
+	L->inicio = NULL;    // Poner inicio NULL
+	L->final = NULL;	// Poner final NULL
+	L->largo=0;			// Poner largo 0
+	return L;
+}
+
+// Crear un nuevo nodo para la lista doble
+
+cartas * nueva_carta (struct carta datos)
+{
+	int aux;
+	cartas * nuevo;
+	nuevo = (cartas *) malloc(sizeof(cartas));
+	nuevo->anterior = NULL;
+	nuevo->siguiente = NULL;          //Copiar los datos del duende al nuevo nodo
+	strcpy (nuevo->cedula,datos.cedula);
+	nuevo->contador1=datos.contador1;
+	nuevo->contador2=datos.contador2;
+	nuevo->ano=datos.ano;
+	aux=datos.contador1;
+	while(aux>=0){
+		strcpy(nuevo->lista_deseos[aux].nombre_juguete,datos.lista_deseos[aux].nombre_juguete);
+		aux--;
+	}
+	aux=datos.contador2;
+	while(aux>=0){
+		strcpy(nuevo->lista_juguetes[aux].nombre_juguete,datos.lista_juguetes[aux].nombre_juguete);
+		aux--;
+	}
+	
+	return nuevo;            // retornar los datos
+}
+
+// Muestra la lista doble de derecha a izquierda
+void mostrarLista_Doble_Cartas(Lista_Doble5 *Lista)
+{
+	cartas *i;
+	int aux;
+	printf("Existen las siguientes cartas: \n");
+	for(i = Lista->inicio; i!= NULL; i = i->siguiente){               //recorrer la lista
+		printf("-Identificacion: %s -Ano: %i \nSe pidieron los siguiente juguetes en la carta de santa: \n\n",i->cedula,i->ano);
+		aux=1;
+		while(aux<
+		i->contador2){
+			printf ("-%s\n",i->lista_juguetes[aux].nombre_juguete);
+			aux++;
+		}
+		printf("\n\n\n");
+	}
+}
+
+// Insertar datos en la lista doble
+Lista_Doble5 * insertarDatos5(Lista_Doble5 * Lista, struct carta datos)
+{
+	Lista->largo=Lista->largo+1;
+	if(Lista->inicio == NULL) //Valida si la lista está vacía
+	{
+		//Inserta al inicio de la lista
+		Lista->inicio= nueva_carta(datos);
+		Lista->final = Lista->inicio;
+		return Lista;
+	}
+	
+	//Inserta el dato al final de la lista, no necesita un ciclo porque tiene el puntero final
+	Lista->final->siguiente = nueva_carta(datos);
+	Lista->final->siguiente->anterior = Lista->final;
+	Lista->final = Lista->final->siguiente;
+}
+
+
+void seleccion_identificacion2(Lista_Doble * registro_ninos,char * eleccion[40]){
+	int contador=1,validar=0,dato;
+	ninos *i;
+	printf ("Existen las siguientes identificaciones: \n\n");
+	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){               //recorrer la lista
+		printf("%i-Identificacion: %s\n",contador,i->cedula);
+		contador++;}
+	while (validar==0){
+		fflush(stdin);
+		printf ("Ingrese su eleccion: ");
+		scanf("%i",&dato);
+		fflush(stdin);
+		contador=1;
+		for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){
+			if (dato==contador){
+				strcpy(eleccion,i->cedula);
+				return ;
+			}
+			else{
+				contador++;
+			}
+		}
+		color_error();
+		printf ("\n\nIngrese un valor valido...\n");
+		color_normal();
+	}	
+}
+
+
+/*
+void seleccion_juguetes(Lista_Doble3 * registro_juguetes,char * eleccion[40]){
+	int contador=1,validar=0,dato;
+	ninos *i;
+	printf ("Existen las siguientes identificaciones: \n\n");
+	for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente)               //recorrer la lista
+		printf("%i-Identificacion: %s\n",contador,i->cedula);
+	while (validar==0){
+		printf ("Ingrese su eleccion: ");
+		scanf("%i",&dato);
+		contador==1;
+		for(i = registro_ninos->inicio; i!= NULL; i = i->siguiente){
+			if (dato==contador){
+				strcpy(eleccion,i->cedula);
+				return ;
+			}
+			else{
+				contador++;
+			}
+		}
+		color_error();
+		printf ("\n\nIngrese un valor valido...\n");
+		color_normal();
+	}	
+}*/
+
+
+void nuevo_juguete_carta(char * eleccion[40],Lista_Doble3 * registro_juguetes){
+	int contador=1,validar=0,dato;
+	Juguetes *i;
+	
+	printf("Existen los siguientes juguetes en el sistema: \n");
+	for(i = registro_juguetes->inicio; i!= NULL; i = i->siguiente){               //recorrer la lista
+		printf("%i-Nombre: %s\n",contador,i->nombre);   //Imprimir los datos
+		contador++;
+	}
+	while (validar==0){
+		fflush(stdin);
+		printf ("Ingrese su eleccion: ");
+		scanf("%i",&dato);
+		fflush(stdin);
+		contador=1;
+		for(i = registro_juguetes->inicio; i!= NULL; i = i->siguiente){
+			if (dato==contador){
+				strcpy(eleccion,i->nombre);
+				return ;
+			}
+			else{
+				contador++;
+			}
+		}
+		color_error();
+		printf ("\n\nIngrese un valor valido...\n");
+		color_normal();
+	}
+}
+
+
+
+void nuevo_juguete_deseos(char * eleccion[40],Lista_Doble3 * registro_juguetes){
+	int contador=1,validar=0,dato;
+	Juguetes *i;
+	
+	printf("Existen los siguientes juguetes en el sistema: \n");
+	for(i = registro_juguetes->inicio; i!= NULL; i = i->siguiente){               //recorrer la lista
+		printf("%i-Nombre: %s -Descripcion: %s -Categoria: %s\n",contador,i->nombre,i->descripcion,i->categoria);   //Imprimir los datos
+		contador++;
+	}
+	while (validar==0){
+		fflush(stdin);
+		printf ("Ingrese su eleccion: ");
+		scanf("%i",&dato);
+		fflush(stdin);
+		contador=1;
+		for(i = registro_juguetes->inicio; i!= NULL; i = i->siguiente){
+			if (dato==contador){
+				strcpy(eleccion,i->nombre);
+				return ;
+			}
+			else{
+				contador++;
+			}
+		}
+		color_error();
+		printf ("\n\nIngrese un valor valido...\n");
+		color_normal();
+	}
+}
+
+
+Lista_Doble5 * menu_cartas_santa(Lista_Doble5 * registro_cartas,struct carta datos,Lista_Doble3 * registro_juguetes){
+	int validar=0,eleccion;
+	color_aceptado();
+	printf ("\nFELICIDADES... VAS A PEDIR TUS JUGUETES...\n");
+	color_normal();
+	
+	while (validar==0){
+		
+		printf ("\nEstas son sus opciones...\n");
+		printf ("1- Agregar juguete a la carta de Santa (%i disponibles)\n",11-datos.contador2);
+		printf ("2- Agregar juguete a la lista de deseos (Sin limite)\n");
+		printf ("3- Terminar carta y lista de deseos (Editable luego)\n\n");
+		printf ("\nElija su opcion: ");
+		scanf(" %i", &eleccion);  //eleccion de la opcion a realizar 
+		fflush (stdin);
+		if(isalpha(eleccion) != 0){   // validacion 
+			color_error();
+			printf ("\n\nIngrese una opcion valida...\n\n");
+			color_normal();
+		}
+		
+		switch (eleccion){
+			case 1:
+			    nuevo_juguete_carta(&datos.lista_juguetes[datos.contador2].nombre_juguete,registro_juguetes);
+			    datos.contador2++;
+				break;
+			case 2:
+				nuevo_juguete_deseos(&datos.lista_deseos[datos.contador1].nombre_juguete,registro_juguetes);
+				datos.contador1++;
+				break;
+			case 3:
+				validar++;
+			default:
+				color_error();
+				printf("\n\nIngrese un valor valido...\n");
+				color_normal();
+				break;
+		}
+		
+	}
+	registro_cartas= insertarDatos5(registro_cartas,datos);
+	return registro_cartas;
+}
+
+
+//Insertar datos de una carta
+Lista_Doble5 * nuevos_datos5(Lista_Doble5 * registro_cartas,Lista_Doble * registro_ninos,Lista_Doble3 * registro_juguetes)
+{
+	int validar=0;
+	struct carta datos;
+	char term;
+	
+	seleccion_identificacion2(registro_ninos,&datos.cedula);      
+	fflush (stdin);
+	
+	while (validar==0){
+		printf ("\nIngrese el ano del cual es la carta (sugerencia 2021): ");
+		if(scanf("%d%c", &datos.ano, &term) != 2 || term != '\n'){
+    		color_error();
+    		printf("\nIngrese un valor valido...\n");
+    		color_normal();
+    	}
+		else{
+			if (datos.ano==0){
+    		color_error();
+    		printf("\nIngrese un valor valido...\n");
+    		color_normal();				
+			}
+			else{
+    			validar++;
+    		}
+    	}
+    	fflush(stdin);
+	}
+	fflush(stdin);
+	datos.contador1=1;
+	datos.contador2=1;
+	registro_cartas=menu_cartas_santa(registro_cartas,datos,registro_juguetes);
+	color_aceptado();
+	printf ("\nComportamiento agregado correctamente\n\n");
+	color_normal();
+	fflush (stdin);
+	return registro_cartas;
+}
+
+
+Lista_Doble5 * cambio_de_juguetes(Lista_Doble5 * registro_cartas){
+	cartas *i;
+	int contador=1,validar,aux,dato;
+	printf("Existen las siguientes cartas: \n");
+	for(i = registro_cartas->inicio; i!= NULL; i = i->siguiente){               //recorrer la lista
+		printf("%i-Identificacion: %s ",contador,i->cedula); 
+		contador++;
+	}
+	while (validar==0){
+		fflush(stdin);
+		printf ("Ingrese su eleccion: ");
+		scanf("%i",&dato);
+		fflush(stdin);
+		contador=1;
+		for(i = registro_cartas->inicio; i!= NULL; i = i->siguiente){
+			if (dato==contador){
+				printf ("Seleccione el juguete a pasar a la carta de Santa: \n");
+				aux=1;
+				contador=1;
+				while (aux<i->contador1){
+					printf ("%i-Nombre: %s\n",contador,i->lista_deseos[aux].nombre_juguete);
+					contador++;
+					aux++;
+				}
+				while (validar==0){
+					printf ("Ingrese su eleccion: ");
+					scanf("%i",&dato);
+					fflush(stdin);
+					aux=1;
+					while (aux<i->contador1){
+						if (aux=dato){
+							strcpy(i->lista_juguetes[i->contador2].nombre_juguete,i->lista_deseos[dato].nombre_juguete);
+							i->contador2++;
+							return registro_cartas;
+							}
+						else{
+							aux++;
+							}
+					}
+				color_error();
+				printf ("\n\nIngrese un valor valido...\n");
+				color_normal();						
+				}
+			}
+			else{
+				contador++;
+			}
+			}
+		color_error();
+		printf ("\n\nIngrese un valor valido...\n");
+		color_normal();
+	}	
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/ 
+//                                  CÓDIGO PARA ENTREGA DE JUGUETES
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+//Lorem Ipsum 
+void dijkstra(){
+	Nodo*aux=inicio;
+	char a,b;
+	fflush(stdin);
+	printf("Ingresar Nodo Inicial y Final:");
+	scanf("%c %c",&a,&b);
+	while(aux!=NULL){
+		if(aux->dato==a){
+			aux->terminado=1;
+			aux->monto=0;
+			break;
+		}
+		aux=aux->siguiente;
+	}
+	if(aux==NULL){
+		printf("Vertice no encontrado\n");
+		return;
+	}
+	while(aux!=NULL){
+		Arista*a=aux->adyacencia;
+	    while(a!=NULL){
+		    if(a->vrt->monto==-1 || (aux->monto+a->peso)<a->vrt->monto){
+		    	a->vrt->monto=aux->monto+a->peso;
+		        a->vrt->anterior=aux->dato;
+			}
+		    a=a->siguiente;
+	    }
+	    aux=inicio;
+	    Nodo*min=inicio;
+	    while(min->anterior==0 || min->terminado ==1)
+	    min=min->siguiente;
+	    while(aux!=NULL){
+	    	if(aux->monto<min->monto && aux->terminado==0 && aux->anterior!=0)
+	    	min=aux;
+	    	aux=aux->siguiente;
+		}
+		aux=min;
+		aux->terminado=1;
+		if(aux->dato==b)
+		break;
+	}
+	while(aux->anterior!=0){
+		insertarPila(aux);
+		char temp=aux->anterior;
+		aux=inicio;
+		while(aux->dato!=temp){
+		   aux=aux->siguiente;	
+		}
+	}
+	insertarPila(aux);
+	while(ini!=NULL){
+		printf("%c ",desencolar()->dato);
+	}
+		printf("\n");
+	reiniciar();
+}
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/ 
 //                                  CÓDIGO PARA EL MENU
 /* ----------------------------------------------------------------------------------------------------------------------------*/
+
+
 
 main (){
 	
@@ -1816,6 +2242,7 @@ main (){
 	Lista_Doble2 * registro_duendes = listaNueva2(registro_duendes);
 	Lista_Doble3 * registro_juguetes = listaNueva3(registro_juguetes);
 	Lista_Doble4 * registro_comportamientos = listaNueva4(registro_comportamientos);
+	Lista_Doble5 * registro_cartas = listaNueva5(registro_cartas);
 	Arbol registro_codigos_juguetes=NULL;
 	int validar=0,eleccion,codigo_juguete_aux;
 	
@@ -1842,7 +2269,10 @@ main (){
 		printf ("15- Mostrar relaciones de los lugares\n");
 		printf ("16- Agregar comportamiento\n");
 		printf ("17- Mostrar comportamientos registrados\n");
-		printf ("18- Salir del sistema\n");
+		printf ("18- Agregar carta para Santa\n");
+		printf ("19- Mostrar cartas para Santa\n");
+		printf ("20- Pasar juguetes de la lista de deseos a la carta de santa\n");
+		printf ("21- Salir del sistema\n");
 		
 		printf ("\nElija su opcion: ");
 		scanf(" %i", &eleccion);  //eleccion de la opcion a realizar 
@@ -1913,8 +2343,20 @@ main (){
 			case 17:
             	mostrarLista_Doble_Comportamientos(registro_comportamientos);
             	fflush(stdin);
-				break;		
+				break;
 			case 18:
+            	registro_cartas=nuevos_datos5(registro_cartas,registro_ninos,registro_juguetes);
+            	fflush(stdin);
+				break;
+			case 19:
+            	mostrarLista_Doble_Cartas(registro_cartas);
+            	fflush(stdin);
+				break;		
+			case 20:
+				registro_cartas=cambio_de_juguetes(registro_cartas);
+            	fflush(stdin);
+				break;
+			case 21:
 				color_aceptado();
 				printf ("\nGracias por utilizar el sistema...\n");  //Salir del sistema
 				color_normal(); 
@@ -1932,5 +2374,7 @@ main (){
 	
 	return 0;
 }
+
+
 
 
